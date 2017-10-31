@@ -37,7 +37,7 @@ describe('/api/minions routes', function() {
   });
 
   describe('GET /minions/:minionId', function() {
-  
+
       it('returns a single minion object', function() {
         return request(app)
           .get(`/api/minions/1`)
@@ -48,7 +48,7 @@ describe('/api/minions routes', function() {
             expect(minion).to.not.be.an.instanceOf(Array);
           });
       });
-  
+
       it('returns a full minion object', function() {
         return request(app)
         .get(`/api/minions/1`)
@@ -62,7 +62,7 @@ describe('/api/minions routes', function() {
           expect(minion).to.have.ownProperty('salary');
         });
       });
-  
+
       it('returned minion has the correct id', function() {
         return request(app)
           .get(`/api/minions/1`)
@@ -88,7 +88,7 @@ describe('/api/minions routes', function() {
   });
 
   describe('PUT /api/minions/:minionId', function() {
-    
+
     it('updates the correct minion and returns it', function() {
       let initialMinion;
       let updatedMinionInfo;
@@ -198,7 +198,7 @@ describe('/api/minions routes', function() {
   });
 
   describe('DELETE /api/minions', function() {
-    
+
     it('deletes the correct minion by id', function() {
       let initialMinionsArray;
       return request(app)
@@ -436,7 +436,7 @@ describe('/api/ideas routes', function() {
   });
 
   describe('DELETE /api/ideas', function() {
-    
+
     it('deletes the correct minion by id', function() {
       let initialIdeasArray;
       return request(app)
@@ -466,7 +466,7 @@ describe('/api/ideas routes', function() {
         .delete('/api/ideas/notAnId')
         .expect(404);
     });
-  
+
     it('called with an invalid ID returns a 404 error', function() {
       return request(app)
         .delete('/api/ideas/450')
@@ -519,7 +519,7 @@ describe('checkMillionDollarIdea middleware', function() {
     expect(checkMillionDollarIdea.length).to.equal(3);
   });
 
-  
+
   it('sends a 400 error if the total yield is less than one million dollars', function() {
     req.body = {
       numWeeks: 4,
@@ -529,7 +529,7 @@ describe('checkMillionDollarIdea middleware', function() {
     expect(status).to.equal(400);
     expect(nextCalled).to.be.false;
   });
-  
+
   it('calls next for ideas that will yield at least one million dollars', function() {
     req.body.numWeeks = 1000000;
     req.body.weeklyRevenue = 1;
@@ -537,7 +537,7 @@ describe('checkMillionDollarIdea middleware', function() {
     expect(status).to.equal(null);
     expect(nextCalled).to.be.true;
   });
-  
+
   it('sends a 400 error if numWeeks or weeklyRevenue is not supplied', function() {
     checkMillionDollarIdea(req, response, nextCallback);
     expect(status).to.equal(400);
@@ -580,9 +580,9 @@ describe('checkMillionDollarIdea middleware', function() {
 
 describe('/api/meetings routes', function() {
   let fakeDb = require('../server/db.js');
-  
+
   describe('GET /api/meetings', function() {
-    
+
     it('returns an array', function() {
       return request(app)
         .get('/api/meetings')
@@ -591,7 +591,7 @@ describe('/api/meetings routes', function() {
           expect(response.body).to.be.an.instanceOf(Array);
         });
     });
-  
+
     it('returns an array of all meetings', function() {
       return request(app)
         .get('/api/meetings')
@@ -607,11 +607,11 @@ describe('/api/meetings routes', function() {
           });
         });
     });
-  
+
   });
-  
+
   describe('POST /api/meetings', function() {
-  
+
     it('should create a new meetings and return it', function() {
       return request(app)
         .post('/api/meetings')
@@ -624,7 +624,7 @@ describe('/api/meetings routes', function() {
           expect(createdMeeting).to.have.ownProperty('note');
         });
     });
-  
+
     it('should persist the created meeting to the database', function() {
       let initialMeetingsArray;
       let newlyCreatedMeeting;
@@ -653,11 +653,11 @@ describe('/api/meetings routes', function() {
           expect(createdMeetingFound).to.be.true;
         });
     });
-  
+
   });
-  
+
   describe('DELETE /api/meetings route', function() {
-  
+
     it('deletes all meetings', function() {
       let initialMeetingsArray;
       return request(app)
@@ -679,9 +679,9 @@ describe('/api/meetings routes', function() {
           expect(afterDeleteIdeasArray).to.be.an.instanceOf(Array);
           expect(afterDeleteIdeasArray).to.have.property('length', 0);
         });
-  
+
     });
-  
+
   });
 
 });
@@ -689,18 +689,18 @@ describe('/api/meetings routes', function() {
 describe('BONUS: /api/minions/:minionId/work routes', function() {
 
   let fakeDb = require('../server/db.js').db;
-  
+
     describe('GET /api/minions/:minionId/work', function() {
-  
+
       it('returns an array', function() {
         return request(app)
-          .get('/api/ideas')
+          .get('/api/minions/2/work')
           .expect(200)
           .then((response) => {
             expect(response.body).to.be.an.instanceOf(Array);
           });
       });
-  
+
       it('returns an array of all all work for the specified minion', function() {
         return request(app)
           .get('/api/minions/2/work')
@@ -717,7 +717,7 @@ describe('BONUS: /api/minions/:minionId/work routes', function() {
           .get('/api/minions/notAnId/work')
           .expect(404);
       });
-  
+
       it('called with an invalid ID minion returns a 404 error', function() {
         return request(app)
           .get('/api/minions/450/work')
@@ -725,7 +725,7 @@ describe('BONUS: /api/minions/:minionId/work routes', function() {
       });
 
     });
-  
+
     describe('PUT /api/minions/:minionId/work/:workId', function() {
 
       it('updates the correct work and returns it', function() {
@@ -747,7 +747,7 @@ describe('BONUS: /api/minions/:minionId/work routes', function() {
             expect(response.body).to.be.deep.equal(updatedWorkInfo);
           });
       });
-  
+
       it('updates the correct work item and persists to the database', function() {
         let initialWork;
         let updatedWorkInfo;
@@ -779,7 +779,7 @@ describe('BONUS: /api/minions/:minionId/work routes', function() {
           .put('/api/minions/notAnId')
           .expect(404);
       });
-  
+
       it('called with an invalid minion ID returns a 404 error', function() {
         return request(app)
           .put('/api/minions/450')
@@ -791,13 +791,13 @@ describe('BONUS: /api/minions/:minionId/work routes', function() {
           .put('/api/minions/notAnId/work/notAnId')
           .expect(404);
       });
-  
+
       it('called with an invalid work ID returns a 404 error', function() {
         return request(app)
           .put('/api/minions/450/work/450')
           .expect(404);
       });
-  
+
       it('called with an invalid ID does not change the database array', function() {
         let initialMinionsWorkArray;
         return request(app)
@@ -836,12 +836,12 @@ describe('BONUS: /api/minions/:minionId/work routes', function() {
               .expect(400);
           });
       });
-  
-  
+
+
     });
-  
+
     describe('POST /api/minions/:minionId/work', function() {
-  
+
       it('should add a new idea if all supplied information is correct', function() {
         let initialWorkArray;
         let newIdeaObject = {
@@ -867,11 +867,11 @@ describe('BONUS: /api/minions/:minionId/work routes', function() {
             expect(newIdeaObject).to.be.deep.equal(createdIdea);
           });
       });
-  
+
     });
-  
+
     describe('DELETE /api/minions/:minionId/work/:workId', function() {
-      
+
       it('deletes the correct work by id', function() {
         let initialWorkArray;
         return request(app)
@@ -894,7 +894,7 @@ describe('BONUS: /api/minions/:minionId/work routes', function() {
             let shouldBeDeletedWork = afterDeleteWorkArray.find((el) => el.id === '2');
             expect(shouldBeDeletedWork).to.be.undefined;
           });
-  
+
       });
 
       it('called with a non-numeric minion ID returns a 404 error', function() {
@@ -902,7 +902,7 @@ describe('BONUS: /api/minions/:minionId/work routes', function() {
           .delete('/api/minions/notAnId')
           .expect(404);
       });
-  
+
       it('called with an invalid minion ID returns a 404 error', function() {
         return request(app)
           .delete('/api/minions/450')
@@ -914,13 +914,13 @@ describe('BONUS: /api/minions/:minionId/work routes', function() {
           .delete('/api/minions/notAnId/work/notAnId')
           .expect(404);
       });
-  
+
       it('called with an invalid work ID returns a 404 error', function() {
         return request(app)
           .delete('/api/minions/450/work/450')
           .expect(404);
       });
-  
-    });
+
+   });
 
 });
